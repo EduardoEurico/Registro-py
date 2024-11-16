@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Heróis</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>Gerenciar Heróis</h1>
+    <form action="/heroes" method="POST">
+        <label for="real_name">Nome Real:</label><br>
+        <input type="text" id="real_name" name="real_name"><br>
+        <label for="hero_name">Nome do Herói:</label><br>
+        <input type="text" id="hero_name" name="hero_name"><br>
+        <label for="power_level">Nível de Força:</label><br>
+        <input type="number" id="power_level" name="power_level"><br>
+        <button type="submit">Adicionar Herói</button>
+    </form>
+    <hr>
+    <h2>Lista de Heróis</h2>
+    <ul>
+        {% for hero in heroes %}
+            <li>{{ hero.hero_name }} - Força: {{ hero.power_level }} - Popularidade: {{ hero.popularity }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
