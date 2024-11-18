@@ -36,3 +36,26 @@ class Heroi(db.Model):
 
     def __repr__(self):
         return f"<Heroi {self.hero_name}>"
+
+class Crime(db.Model):
+    __tablename__ = 'crimes'
+
+    id = db.Column(db.Integer, primary_key=True)
+    crime_name = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.String(255), nullable=False)
+    crime_date = db.Column(db.String(100), nullable=False)
+    res_hero = db.Column(db.Date, nullable=False)
+    severity = db.Column(db.Integer, nullable=False)
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "crime_name": self.crime_name,
+            "description": self.description,
+            "crime_date": self.crime_date,
+            "res_hero": self.res_hero,
+            "severity": self.severity
+        }
+
+    def __repr__(self):
+        return f"<Crime {self.crime_name}>"

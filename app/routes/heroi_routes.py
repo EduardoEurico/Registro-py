@@ -1,9 +1,7 @@
 from flask import Blueprint, render_template, request, jsonify
 from app.models.modelos import db, Heroi  # Corrigido
 from datetime import datetime
-
-# Importe a função add_hero do novo arquivo heroi.py
-from app.services.heroi import add_hero
+from app.services.heroi import add_hero # Importe a função add_hero do novo arquivo heroi.py
 
 heroes_bp = Blueprint('heroes', __name__, url_prefix='/heroes')
 
