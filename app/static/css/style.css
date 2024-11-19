@@ -1,18 +1,260 @@
-/* 
- * A ser adicionado
- * 
- * This section of the code is responsible for [describe functionality here].
- * It includes [mention key elements, classes, or IDs used].
- * 
- * Usage:
- * - [Explain how this part of the code should be used or interacted with]
- * - [Provide any important notes or warnings]
- * 
- * Example:
- * ```
- * [Provide a small example if applicable]
- * ```
- * 
- * Author: [Your Name]
- * Date: [Date]
- */
+/* Definições Gerais */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #1d1f2f; /* Fundo escuro */
+    color: #ffffff; /* Texto claro */
+    padding: 20px;
+}
+
+/* Container para o Formulário */
+.crime-container {
+    background-color: #2c2f40; /* Fundo secundário */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 0 auto 40px;
+}
+
+h1 {
+    text-align: center;
+    color: #e84545; /* Cor vibrante */
+    margin-bottom: 20px;
+}
+
+label {
+    display: block;
+    margin: 10px 0 5px;
+    font-size: 14px;
+    font-weight: bold;
+    color: #5db2f2; /* Cor de ação */
+}
+
+input, select, textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+button.crime-submit-button {
+    width: 100%;
+    padding: 12px;
+    background-color: #e84545; /* Cor vibrante */
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button.crime-submit-button:hover {
+    background-color: #c73e3e; /* Cor de hover */
+}
+
+/* Estilizando a Tabela de Crimes */
+.table-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #2c2f40; /* Fundo secundário */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    text-align: center;
+    color: #e84545; /* Cor vibrante */
+    margin-bottom: 20px;
+}
+
+table.crime-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ccc;
+}
+
+th {
+    background-color: #34495e; /* Cor de fundo escuro */
+    color: #fff;
+    font-size: 16px;
+}
+
+td {
+    font-size: 14px;
+}
+
+button.crime-action-link {
+    padding: 6px 12px;
+    border: none;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button.edit-button {
+    background-color: #f39c12; /* Cor vibrante */
+    color: #fff;
+    margin-right: 8px;
+}
+
+button.edit-button:hover {
+    background-color: #e67e22; /* Cor de hover */
+}
+
+button.delete-button {
+    background-color: #e74c3c; /* Cor vibrante */
+    color: #fff;
+}
+
+button.delete-button:hover {
+    background-color: #c0392b; /* Cor de hover */
+}
+
+tr:hover {
+    background-color: #5db2f2; /* Cor de ação ao passar o mouse */
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .crime-container, .table-container {
+        padding: 15px;
+        max-width: 100%;
+    }
+
+    h1, h2 {
+        font-size: 18px;
+    }
+
+    input, select, textarea, button {
+        font-size: 14px;
+    }
+
+    table.crime-table th, table.crime-table td {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 1024px) {
+    .crime-container, .table-container {
+        padding: 15px;
+        max-width: 100%;
+    }
+
+    h1, h2 {
+        font-size: 22px;
+    }
+
+    label, input, select, textarea, button {
+        font-size: 14px;
+    }
+
+    table.crime-table th, table.crime-table td {
+        font-size: 14px;
+    }
+
+    .crime-submit-button {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 768px) {
+    .crime-container {
+        padding: 12px;
+        margin: 0 auto 20px;
+    }
+
+    h1 {
+        font-size: 18px;
+    }
+
+    label {
+        font-size: 13px;
+    }
+
+    input, select, textarea, button {
+        font-size: 14px;
+        padding: 10px;
+    }
+
+    button.crime-submit-button {
+        font-size: 16px;
+    }
+
+    .table-container {
+        padding: 15px;
+    }
+
+    table.crime-table th, table.crime-table td {
+        font-size: 12px;
+    }
+
+    button.crime-action-link {
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+}
+
+/* Ajuste para telas menores, como smartphones */
+@media (max-width: 480px) {
+    .crime-container {
+        padding: 10px;
+        margin: 0 auto 15px;
+    }
+
+    h1 {
+        font-size: 16px;
+        margin-bottom: 15px;
+    }
+
+    label {
+        font-size: 12px;
+    }
+
+    input, select, textarea, button {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    button.crime-submit-button {
+        font-size: 14px;
+    }
+
+    .table-container {
+        overflow-x: auto;
+        margin-top: 20px;
+    }
+
+    table.crime-table {
+        min-width: 600px;
+    }
+
+    button.crime-action-link {
+        font-size: 12px;
+    }
+
+    button.edit-button, button.delete-button {
+        padding: 4px 8px;
+    }
+}

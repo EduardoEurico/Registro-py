@@ -16,6 +16,8 @@ class Heroi(db.Model):
     popularity = db.Column(db.Integer, default=0)
     status = db.Column(db.String(20), default="Ativo")
    
+    crimes = db.relationship('Crime', back_populates='hero')  # Relacionamento com crimes
+
 
     def to_dict(self):
         return {
@@ -44,17 +46,23 @@ class Crime(db.Model):
     crime_name = db.Column(db.String(100), nullable=False)
     description = db.Column(db.String(255), nullable=False)
     crime_date = db.Column(db.String(100), nullable=False)
-    res_hero = db.Column(db.Date, nullable=False)
     severity = db.Column(db.Integer, nullable=False)
+    res_hero = db.Column(db.String(100), nullable=False)  # Ajustado para refletir o nome do herói
+    res_hero_id = db.Column(db.Integer, db.ForeignKey('herois.id'), nullable=False)
+    hero  = db.relationship('Heroi', back_populates='crimes')  # Relacionamento
+
+
+
+
 
     def to_dict(self):
         return {
-            "id": self.id,
-            "crime_name": self.crime_name,
-            "description": self.description,
-            "crime_date": self.crime_date,
-            "res_hero": self.res_hero,
-            "severity": self.severity
+            'id': self.id,
+            'crime_name': self.crime_name,
+            'description': self.description,
+            'crime_date': self.crime_date.strftime('%Y-%m-%d'),
+            'severity': self.severity,
+            'res_hero': self.hero.hero_name  # Aqui pegamos o nome do herói diretamente
         }
 
     def __repr__(self):

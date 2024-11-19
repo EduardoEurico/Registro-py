@@ -25,7 +25,7 @@ def atualizar_crime(id):
 
 
 @crimes_bp.route('/crimes/<int:id>', methods=['DELETE'])
-def deletar_crime(id):
+def deletar_crime_route(id):
     return deletar_crime(id)
 
 @crimes_bp.route('/crimes/pagina', methods=['GET'])

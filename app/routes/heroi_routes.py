@@ -17,3 +17,8 @@ def get_heroes():
 @heroes_bp.route('/', methods=['GET'])
 def index():
     return render_template('index.html')
+
+@heroes_bp.route('/heroes', methods=['GET'])
+def get_heroes_crime():
+    heroes = Heroi.query.all()
+    return jsonify([hero.to_dict() for hero in heroes])

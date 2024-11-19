@@ -1,44 +1,84 @@
-    <!-- Crimes -->
+<!-- Crimes -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Cadastro de Crimes</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}"> <!-- Adicionando o link para o CSS -->
 </head>
 <body>
 
-    <form id="cadastroCrime">
-        <label for="crime_name">Nome do Crime:</label>
-        <input type="text" id="crime_name" required>
-    
-        <label for="description">Descrição:</label>
-        <textarea id="description" required></textarea>
-    
-        <label for="crime_date">Data do Crime:</label>
-        <input type="date" id="crime_date" required>
-    
-        <label for="res_hero">Herói Responsável:</label>
-        <input type="text" id="res_hero" required>
-    
-        <label for="severity">Severidade:</label>
-        <select id="severity">
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
-            <option value="7">7</option>
-            <option value="8">8</option>
-            <option value="9">9</option>
-            <option value="10">10</option>
-        </select>
-    
-        <button type="submit">Cadastrar Crime</button>
-    </form>
-    
+    <!-- Formulário de Cadastro de Crime -->
+    <div class="crime-container">
+        <h1>Cadastrar Crime</h1>
+        <form id="cadastroCrime">
+            <label for="crime_name">Nome do Crime:</label>
+            <input type="text" id="crime_name" required>
+        
+            <label for="description">Descrição:</label>
+            <textarea id="description" required></textarea>
+        
+            <label for="crime_date">Data do Crime:</label>
+            <input type="date" id="crime_date" required>
+        
+            <label for="res_hero">Herói Responsável:</label>
+            <select id="res_hero" required>
+                <!-- Opções serão adicionadas dinamicamente via JavaScript -->
+            </select>
+        
+            <label for="severity">Severidade:</label>
+            <select id="severity">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+            </select>
+            <label for="hero_ids">Heroi</label>
+        
+            <button type="submit" class="crime-submit-button">Cadastrar Crime</button>
+        </form>
+    </div>
 
-    <script src="{{ url_for('static', filename='./js/crime.js') }}"></script>
+    <!-- Lista de Crimes Cadastrados -->
+    <div class="table-container">
+        <h2>Lista de Crimes</h2>
+        <table class="crime-table">
+            <thead>
+                <tr>
+                    <th>Nome do Crime</th>
+                    <th>Descrição</th>
+                    <th>Data</th>
+                    <th>Herói Responsável</th>
+                    <th>Severidade</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="crimeList">
+                <!-- A lista de crimes será populada dinamicamente aqui -->
+                {% for crime in crimes %}
+                    <tr>
+                        <td>{{ crime.crime_name }}</td> <!-- Exibe o nome do crime -->
+                        <td>{{ crime.description }}</td> <!-- Exibe a descrição -->
+                        <td>{{ crime.crime_date }}</td> <!-- Exibe a data do crime -->
+                        <td>{{ crime.res_hero }}</td> <!-- Exibe o herói responsável -->
+                        <td>{{ crime.severity }}</td> <!-- Exibe a severidade -->
+                        <td>
+                            <button class="crime-action-link edit-button" data-id="{{ crime.id }}">Editar</button>
+                            <button class="crime-action-link delete-button" data-id="{{ crime.id }}">Excluir</button>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/crime.js') }}"></script>
 </body>
 </html>
