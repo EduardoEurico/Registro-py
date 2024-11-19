@@ -9,42 +9,6 @@
 </head>
 <body>
 
-    <!-- Formulário de Cadastro de Crime -->
-    <div class="crime-container">
-        <h1>Cadastrar Crime</h1>
-        <form id="cadastroCrime">
-            <label for="crime_name">Nome do Crime:</label>
-            <input type="text" id="crime_name" required>
-        
-            <label for="description">Descrição:</label>
-            <textarea id="description" required></textarea>
-        
-            <label for="crime_date">Data do Crime:</label>
-            <input type="date" id="crime_date" required>
-        
-            <label for="res_hero">Herói Responsável:</label>
-            <select id="res_hero" required>
-                <!-- Opções serão adicionadas dinamicamente via JavaScript -->
-            </select>
-        
-            <label for="severity">Severidade:</label>
-            <select id="severity">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-                <option value="6">6</option>
-                <option value="7">7</option>
-                <option value="8">8</option>
-                <option value="9">9</option>
-                <option value="10">10</option>
-            </select>
-            <label for="hero_ids">Heroi</label>
-        
-            <button type="submit" class="crime-submit-button">Cadastrar Crime</button>
-        </form>
-    </div>
 
     <!-- Lista de Crimes Cadastrados -->
     <div class="table-container">
@@ -77,6 +41,43 @@
                 {% endfor %}
             </tbody>
         </table>
+    </div>
+
+     <!-- Formulário de Cadastro de Crime -->
+     <div class="crime-container">
+        <h1>Cadastrar Crime</h1>
+        <form id="cadastroCrime">
+            <label for="crime_name">Nome do Crime:</label>
+            <input type="text" id="crime_name" required>
+        
+            <label for="description">Descrição:</label>
+            <textarea id="description" required></textarea>
+        
+            <label for="crime_date">Data do Crime:</label>
+            <input type="date" id="crime_date" required>
+        
+            <label for="res_hero">Herói Responsável:</label>
+            <select id="res_hero" required>
+                <!-- Opções serão adicionadas dinamicamente via JavaScript -->
+            </select>
+        
+            <label for="severity">Severidade:</label>
+            <select id="severity">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+            </select>
+            <label for="hero_ids">Heroi</label>
+        
+            <button type="submit" class="submit-button">Cadastrar Crime</button>
+        </form>
     </div>
 
     <script src="{{ url_for('static', filename='js/crime.js') }}"></script>

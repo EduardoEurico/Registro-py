@@ -14,6 +14,9 @@ def add_crime(request):
         if not hero:
             return jsonify({"error": "Herói não encontrado"}), 404
 
+        # Garantir que a severidade seja um número inteiro
+        severity = int(data.get('severity'))  # Convertendo para inteiro
+
         # Criar uma nova instância de Crime associada ao herói encontrado
         new_crime = Crime(
             crime_name=data.get('crime_name'),
@@ -21,10 +24,16 @@ def add_crime(request):
             crime_date=datetime.strptime(data.get('crime_date'), "%Y-%m-%d"),
             res_hero_id=hero.id,  # Associando ao ID do herói
             res_hero=hero.hero_name,  # Atribuindo o nome correto do herói
-            severity=data.get('severity')
+            severity=severity  # A severidade agora é um número inteiro
         )
 
+        # Atualizar a popularidade do herói
+        hero.popularity -= severity * 10  # Subtrai 10 pontos por cada ponto de severidade
+
         db.session.add(new_crime)
+        db.session.commit()
+
+        # Salvar alterações na popularidade do herói
         db.session.commit()
 
         return jsonify({
@@ -38,89 +47,10 @@ def add_crime(request):
 
     except Exception as e:
         db.session.rollback()
+        logging.debug(f"Dados recebidos: {data}")  # Log dos dados recebidos
         return jsonify({"error": f"Erro ao adicionar crime: {str(e)}"}), 500
-    data = request.json  # Recebe os dados do cliente
-    logging.debug(f"Dados recebidos: {data}")  # Log dos dados recebidos
-    try:
-        hero_name = data.get('res_hero')
 
-        # Verifica se o nome do herói é válido
-        if hero_name == 'undefined' or not hero_name:
-            logging.error("Nome de herói inválido ou não definido.")
-            return jsonify({"error": "Nome de herói inválido ou não definido."}), 400
-        
-        hero = Heroi.query.filter_by(hero_name=hero_name).first()
-
-        if not hero:
-            # Se o herói não for encontrado
-            logging.error(f"Herói '{hero_name}' não encontrado.")
-            return jsonify({"error": "Herói não encontrado"}), 404
-
-        # Criar uma nova instância de Crime associada ao herói encontrado
-        new_crime = Crime(
-            crime_name=data.get('crime_name'),
-            description=data.get('description'),
-            crime_date=datetime.strptime(data.get('crime_date'), "%Y-%m-%d"),
-            res_hero=hero.hero_name,  # Associa o nome do herói
-            severity=data.get('severity')
-        )
-        
-        # Adicionar ao banco de dados
-        db.session.add(new_crime)
-        db.session.commit()
-        
-        return jsonify({
-            "message": "Crime adicionado com sucesso!",
-            "crime": new_crime.to_dict()
-        }), 201
-
-    except ValueError as e:
-        db.session.rollback()
-        logging.error("Formato de data inválido.")
-        return jsonify({"error": "Formato de data inválido. Use 'YYYY-MM-DD'."}), 400
-
-    except Exception as e:
-        db.session.rollback()
-        logging.error(f"Erro ao adicionar crime: {str(e)}")
-        return jsonify({"error": f"Erro ao adicionar crime: {str(e)}"}), 500
-    data = request.json  # Recebe os dados do cliente
-    logging.debug(f"Dados recebidos: {data}")  # Log dos dados recebidos
-    try:
-        hero_name = data.get('res_hero')
-        hero = Heroi.query.filter_by(hero_name=hero_name).first()
-
-        if not hero:
-            # Se o herói não for encontrado
-            logging.error(f"Herói '{hero_name}' não encontrado.")  # Log do erro
-            return jsonify({"error": "Herói não encontrado"}), 404
-
-        # Criar uma nova instância de Crime associada ao herói encontrado
-        new_crime = Crime(
-            crime_name=data.get('crime_name'),
-            description=data.get('description'),
-            crime_date=datetime.strptime(data.get('crime_date'), "%Y-%m-%d"),
-            res_hero=hero.hero_name,  # Associa o nome do herói
-            severity=data.get('severity')
-        )
-        
-        # Adicionar ao banco de dados
-        db.session.add(new_crime)
-        db.session.commit()
-        
-        return jsonify({
-            "message": "Crime adicionado com sucesso!",
-            "crime": new_crime.to_dict()
-        }), 201
-
-    except ValueError as e:
-        db.session.rollback()
-        logging.error("Formato de data inválido.")
-        return jsonify({"error": "Formato de data inválido. Use 'YYYY-MM-DD'."}), 400
-
-    except Exception as e:
-        db.session.rollback()
-        logging.error(f"Erro ao adicionar crime: {str(e)}")
-        return jsonify({"error": f"Erro ao adicionar crime: {str(e)}"}), 500
+    
 
 
 def listar_crimes():

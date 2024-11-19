@@ -1,6 +1,8 @@
 from app.models.modelos import db, Heroi  # Certifique-se de importar o modelo Heroi
 from datetime import datetime
 import logging
+from flask import jsonify, request
+
 
 def add_hero(request):
     data = request.json  # Recebe os dados do cliente
@@ -45,3 +47,49 @@ def add_hero(request):
         logging.error(f"Erro ao cadastrar herói: {str(e)}")  # Log do erro
         db.session.rollback()
         return {"error": str(e)}, 400
+def listar_herois():
+    heroi = Heroi.query.all()
+    heroi_json = [heroi.to_dict() for heroi in heroi]
+    return jsonify(heroi_json), 200
+
+
+def obter_herois(id):
+    """
+    Rota para obter um heroi específico pelo ID.
+    """
+    heroi = Heroi.query.get(id)
+    if heroi:
+        return jsonify(heroi.to_dict()), 200
+    return jsonify({"error": "heroi não encontrado."}), 404
+
+def atualizar_heroi(id):
+    """
+    Rota para atualizar os dados de um heroi pelo ID.
+    Recebe os dados em JSON e atualiza no banco de dados.
+    """
+    data = request.get_json()
+    heroi = Heroi.query.get(id)
+
+    if not heroi:
+        return jsonify({"error": "Heroi não encontrado."}), 404
+
+    try:
+        heroi.real_name = data.get('real_name', heroi.real_name)
+        heroi.hero_name = data.get('hero_name', heroi.hero_name)
+        heroi.powers = data.get('powers', heroi.powers)
+        heroi.strength_level = data.get('strength_level', heroi.strength_level)
+        heroi.popularity = data.get('popularity', heroi.popularity)
+        heroi.birth_date = data.get('birth_date', heroi.birth_date)
+        heroi.birth_place = data.get('birth_place', heroi.birth)
+        heroi.gender = data.get('gender', heroi.gender)
+        heroi.height = data.get('height', heroi.height)
+        heroi.weight = data.get('weight', heroi.weight)                       
+        heroi.status = data.get('status', heroi.status)
+
+
+        db.session.commit()
+        return jsonify({"message": "Lista de Herois atualizada com sucesso!", "heroi": heroi.to_dict()}), 200
+
+    except Exception as e:
+        db.session.rollback()
+        return jsonify({"error": f"Erro ao atualizar crime: {str(e)}"}), 500

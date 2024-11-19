@@ -11,8 +11,9 @@ def add_hero_route():
 
 @heroes_bp.route('/herois', methods=['GET'])
 def get_heroes():
-    heroes = Heroi.query.all()
-    return render_template('herois.html', heroes=heroes)
+    heroes = Heroi.query.all()  # Buscar todos os heróis
+    return render_template('herois.html', heroes=heroes)  # Passa a variável heroes para o template
+
 
 @heroes_bp.route('/', methods=['GET'])
 def index():
@@ -22,3 +23,11 @@ def index():
 def get_heroes_crime():
     heroes = Heroi.query.all()
     return jsonify([hero.to_dict() for hero in heroes])
+@heroes_bp.route('/heroes', methods=['GET'])
+def listar_herois():
+    return listar_herois()
+@heroes_bp.route('/heroes/<int:id>', methods=['PUT'])
+def atualizar_heroi(id):
+    return atualizar_heroi(id)
+
+

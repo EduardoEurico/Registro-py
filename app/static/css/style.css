@@ -19,7 +19,7 @@ body {
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     max-width: 600px;
-    margin: 0 auto 40px;
+    margin: 40px auto 40px; /* Aumenta a distância do topo */
 }
 
 h1 {
@@ -50,7 +50,7 @@ textarea {
     min-height: 100px;
 }
 
-button.crime-submit-button {
+button.submit-button {
     width: 100%;
     padding: 12px;
     background-color: #e84545; /* Cor vibrante */
@@ -62,7 +62,7 @@ button.crime-submit-button {
     transition: background-color 0.3s ease;
 }
 
-button.crime-submit-button:hover {
+button.submit-button:hover {
     background-color: #c73e3e; /* Cor de hover */
 }
 
@@ -174,7 +174,7 @@ tr:hover {
         font-size: 14px;
     }
 
-    .crime-submit-button {
+    .submit-button {
         font-size: 16px;
     }
 }
@@ -198,7 +198,7 @@ tr:hover {
         padding: 10px;
     }
 
-    button.crime-submit-button {
+    button.submit-button {
         font-size: 16px;
     }
 
@@ -237,7 +237,7 @@ tr:hover {
         padding: 8px;
     }
 
-    button.crime-submit-button {
+    button.submit-button {
         font-size: 14px;
     }
 
