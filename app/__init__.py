@@ -15,10 +15,12 @@ def create_app():
     db.init_app(app)
     migrate.init_app(app, db)
 
+    from app.routes.index_route import index_bp
     # Importa e registra as rotas dentro da função
     from app.routes.heroi_routes import heroes_bp  # Importação tardia para evitar a dependência circular
     from app.routes.crime_routes import crimes_bp  # Rotas para crimes
 
+    app.register_blueprint(index_bp)
     app.register_blueprint(heroes_bp)  # Registra o Blueprint com as rotas
     app.register_blueprint(crimes_bp)  # Registra o Blueprint com as rotas
 

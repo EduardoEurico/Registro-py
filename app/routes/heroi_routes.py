@@ -15,9 +15,7 @@ def get_heroes():
     return render_template('herois.html', heroes=heroes)  # Passa a variável heroes para o template
 
 
-@heroes_bp.route('/', methods=['GET'])
-def index():
-    return render_template('index.html')
+
 
 @heroes_bp.route('/heroes', methods=['GET'])
 def get_heroes_crime():

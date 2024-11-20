@@ -36,6 +36,9 @@ def add_hero(request):
             status=data.get('status', 'Ativo')
         )
 
+        atualizar_status_heroi(new_hero)
+
+
         # Adiciona o novo herói ao banco de dados
         db.session.add(new_hero)
         db.session.commit()
@@ -86,6 +89,8 @@ def atualizar_heroi(id):
         heroi.weight = data.get('weight', heroi.weight)                       
         heroi.status = data.get('status', heroi.status)
 
+        atualizar_status_heroi(heroi)
+
 
         db.session.commit()
         return jsonify({"message": "Lista de Herois atualizada com sucesso!", "heroi": heroi.to_dict()}), 200
@@ -93,3 +98,22 @@ def atualizar_heroi(id):
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": f"Erro ao atualizar crime: {str(e)}"}), 500
+    
+def atualizar_status_heroi(heroi):
+    """
+    Função para atualizar o status do herói com base na popularidade e derrotas.
+    """
+    # Se a popularidade for menor que 20, o status é Inativo
+    if heroi.popularity < 20:
+        heroi.status = "Inativo"
+    
+    # Se a popularidade for menor ou igual a 0, o status é Banido
+    if heroi.popularity <= 0:
+        heroi.status = "Banido"
+
+    # Considerando derrotas (adicione lógica de derrotas aqui se necessário)
+    # Por exemplo, se derrotas forem mais de 5, o status pode ser alterado para "Inativo"
+    if heroi.losses > 5:  # Suponha que 'losses' seja o número de derrotas
+        heroi.status = "Inativo"
+
+    db.session.commit()  # Salva as alterações no banco de dados

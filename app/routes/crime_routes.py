@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify, render_template
 from app import db
-from app.models.modelos import Crime
+from app.models.modelos import Crime, Heroi
 from app.services.crime import add_crime, listar_crimes, obter_crime, atualizar_crime, deletar_crime
 
 # Criando o Blueprint para crimes
@@ -15,12 +15,12 @@ def listar_crimes():
     return listar_crimes()
 
 @crimes_bp.route('/crimes/<int:id>', methods=['GET'])
-def obter_crime(id):
+def obter_crimes(id):
    return obter_crime(id)
 
 
 @crimes_bp.route('/crimes/<int:id>', methods=['PUT'])
-def atualizar_crime(id):
+def atualizar_crimes(id):
     return atualizar_crime(id)
 
 
@@ -32,3 +32,13 @@ def deletar_crime_route(id):
 def exibir_crimes():
     crimes = Crime.query.all()
     return render_template('crime.html', crimes=crimes)
+
+
+@crimes_bp.route('/crimes/editar/<int:id>', methods=['GET'])
+def editar_crime(id):
+    crime = Crime.query.get(id)
+    herois = Heroi.query.all()  # Carrega todos os heróis
+    if crime:
+        return render_template('crime.html', crime=crime, herois=herois)
+    else:
+        return jsonify({"error": "Crime não encontrado!"}), 404

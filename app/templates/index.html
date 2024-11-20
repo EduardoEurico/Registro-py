@@ -1,19 +1,13 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-  <meta charset="UTF-8">
-  <title>Página Inicial</title>
-</head>
-<body>
-  <div>
-    <h1>Bem-vindo ao Banco de Dados de Heróis</h1>
+<!-- templates/index.html -->
+{% extends "base.html" %}
+
+{% block title %}Página Inicial{% endblock %}
+
+{% block content %}
+<div>
+    <h2>Bem-vindo ao Banco de Dados de Heróis</h2>
     
-    <!-- Exibir os heróis -->
-    <ul>
-      {% for hero in heroes %}
-        <li>{{ hero.hero_name }} - {{ hero.real_name }} - Status: {{ hero.status }}</li>
-      {% endfor %}
-    </ul>
-  </div>
-</body>
-</html>
+    
+   
+</div>
+{% endblock %}

@@ -15,6 +15,7 @@ class Heroi(db.Model):
     strength_level = db.Column(db.Integer, nullable=False)
     popularity = db.Column(db.Integer, default=0)
     status = db.Column(db.String(20), default="Ativo")
+
    
     crimes = db.relationship('Crime', back_populates='hero')  # Relacionamento com crimes
 
@@ -49,6 +50,8 @@ class Crime(db.Model):
     severity = db.Column(db.Integer, nullable=False)
     res_hero = db.Column(db.String(100), nullable=False)  # Ajustado para refletir o nome do herói
     res_hero_id = db.Column(db.Integer, db.ForeignKey('herois.id'), nullable=False)
+
+
     hero  = db.relationship('Heroi', back_populates='crimes')  # Relacionamento
 
 

@@ -1,0 +1,29 @@
+<!-- templates/base.html -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Meu Aplicativo{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+ 
+</head>
+<body>
+    <header>
+        <h1>Banco de Dados de Heróis</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="http://127.0.0.1:5000">Home</a></li>
+            <li><a href="http://127.0.0.1:5000/heroes/herois">Heróis</a></li>
+            <li><a href="http://127.0.0.1:5000/crimes/pagina">Crimes</a></li>
+        </ul>
+    </nav>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    <footer>
+        <p>&copy; 2024 Meu Aplicativo</p>
+    </footer>
+</body>
+</html>

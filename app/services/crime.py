@@ -60,31 +60,38 @@ def listar_crimes():
 
 
 def obter_crime(id):
-    """
-    Rota para obter um crime específico pelo ID.
-    """
     crime = Crime.query.get(id)
     if crime:
-        return jsonify(crime.to_dict()), 200
-    return jsonify({"error": "Crime não encontrado."}), 404
+        return jsonify({
+            'id': crime.id,
+            'crime_name': crime.crime_name,
+            'description': crime.description,
+            'crime_date': crime.crime_date,
+            'res_hero': crime.res_hero,
+            'severity': crime.severity
+        })
+    return jsonify({'error': 'Crime not found'}), 404
+
 
 def atualizar_crime(id):
     """
     Rota para atualizar os dados de um crime pelo ID.
-    Recebe os dados em JSON e atualiza no banco de dados.
+    Recebe os dados em formato de JSON e atualiza no banco de dados.
     """
-    data = request.get_json()
     crime = Crime.query.get(id)
 
     if not crime:
         return jsonify({"error": "Crime não encontrado."}), 404
 
     try:
-        crime.crime_name = data.get('crime_name', crime.crime_name)
-        crime.description = data.get('description', crime.description)
-        crime.crime_date = data.get('crime_date', crime.crime_date)
-        crime.res_hero = data.get('res_hero', crime.res_hero)
-        crime.severity = data.get('severity', crime.severity)
+        # Atualiza os campos com os valores enviados via JSON
+        dados = request.get_json()
+
+        crime.crime_name = dados.get('crime_name', crime.crime_name)
+        crime.description = dados.get('description', crime.description)
+        crime.crime_date = dados.get('crime_date', crime.crime_date)
+        crime.res_hero = dados.get('res_hero', crime.res_hero)
+        crime.severity = dados.get('severity', crime.severity)
 
         db.session.commit()
         return jsonify({"message": "Crime atualizado com sucesso!", "crime": crime.to_dict()}), 200
@@ -92,6 +99,7 @@ def atualizar_crime(id):
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": f"Erro ao atualizar crime: {str(e)}"}), 500
+
 
 def deletar_crime(id):
     """
