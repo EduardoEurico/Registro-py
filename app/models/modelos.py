@@ -1,4 +1,6 @@
+from datetime import datetime
 from app import db
+
 class Heroi(db.Model):
     __tablename__ = 'herois'
 
@@ -82,15 +84,24 @@ class Battle(db.Model):
     winner = db.relationship('Heroi', foreign_keys=[winner_id])
 
     def to_dict(self):
+        battle_date_obj = datetime.strptime(self.battle_date, '%Y-%m-%d')
+        current_date = datetime.utcnow()
+
+        if battle_date_obj > current_date:
+            winner_name = "A decidir"
+        else:
+            winner_name = self.winner.hero_name
+
         return {
             'id': self.id,
-            'battle_date': self.battle_date,  # Corrigido para não usar strftime
+            'battle_date': self.battle_date,
             'hero1_name': self.hero1.hero_name,
             'hero2_name': self.hero2.hero_name,
             'hero1_strength': self.hero1_strength,
             'hero2_strength': self.hero2_strength,
-            'winner_name': self.winner.hero_name,
+            'winner_name': winner_name,
         }
 
     def __repr__(self):
         return f"<Battle {self.hero1.hero_name} vs {self.hero2.hero_name}>"
+    
