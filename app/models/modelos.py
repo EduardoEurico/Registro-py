@@ -32,11 +32,12 @@ class Heroi(db.Model):
             "strength_level": self.strength_level,
             "popularity": self.popularity,
             "status": self.status,
-            "losses": self.losses  # Adicionado no dicionário
+            "losses": self.losses
         }
 
     def __repr__(self):
         return f"<Heroi {self.hero_name}>"
+
 
 class Crime(db.Model):
     __tablename__ = 'crimes'

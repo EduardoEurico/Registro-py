@@ -18,7 +18,6 @@
             </tr>
         </thead>
         <tbody id="battleList">
-            <!-- Exibe a lista de batalhas -->
             {% for battle in battles %}
                 <tr>
                     <td>{{ battle.battle_date }}</td>
@@ -37,10 +36,20 @@
     <h1>Cadastrar Batalha</h1>
     <form id="cadastroBatalha">
         <label for="hero1_id">Desafiante:</label>
-        <input type="number" id="hero1_id" name="hero1_id" required>
+        <select id="hero1_id" name="hero1_id" required>
+            <option value="">Selecione um herói</option>
+            {% for heroi in herois %}
+                <option value="{{ heroi.id }}">{{ heroi.hero_name }}</option>
+            {% endfor %}
+        </select>
     
         <label for="hero2_id">Adversário:</label>
-        <input type="number" id="hero2_id" name="hero2_id" required>
+        <select id="hero2_id" name="hero2_id" required>
+            <option value="">Selecione um herói</option>
+            {% for heroi in herois %}
+                <option value="{{ heroi.id }}">{{ heroi.hero_name }}</option>
+            {% endfor %}
+        </select>
     
         <label for="battle_date">Data da Batalha:</label>
         <input type="date" id="battle_date" name="battle_date" required>

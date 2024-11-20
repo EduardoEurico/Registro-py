@@ -1,14 +1,14 @@
 from flask import Blueprint, render_template, request, jsonify
-from app.models.modelos import db, Heroi, Battle  # Certifique-se de importar os modelos Heroi e Battle
+from app.models.modelos import db, Heroi, Battle
 from datetime import datetime
-from app.services.Factory.Battle import create_battle, calculate_battle  # Importe as funções do novo arquivo battle.py
+from app.services.Factory.Battle import create_battle, calculate_battle
 import logging
 
 battles_bp = Blueprint('battles', __name__, url_prefix='/battles')
 
 @battles_bp.route('/criar', methods=['POST'])
 def create_battle_route():
-    data = request.json  # Recebe os dados do cliente
+    data = request.json
     hero1_id = data.get('hero1_id')
     hero2_id = data.get('hero2_id')
     battle_date = data.get('battle_date', datetime.utcnow().strftime('%Y-%m-%d'))
@@ -40,4 +40,6 @@ def get_battle(id):
 def index():
     battles = Battle.query.all()
     battles_json = [battle.to_dict() for battle in battles]
-    return render_template('batalhas.html', battles=battles_json)
+    herois = Heroi.query.all()
+    herois_json = [heroi.to_dict() for heroi in herois]
+    return render_template('batalhas.html', battles=battles_json, herois=herois_json)
