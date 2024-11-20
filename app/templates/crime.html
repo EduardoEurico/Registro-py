@@ -42,13 +42,14 @@
                             
 
                                 <label for="res_hero_{{ crime.id }}">Herói Responsável:</label>
-                                <select id="res_hero_{{ crime.id }}" name="res_hero_" required>
+                                <select id="res_hero_{{ crime.id }}" name="res_hero_" data-selected-hero="{{ crime.res_hero_id }}" required>
                                     {% for heroi in herois %}
                                         <option value="{{ heroi.id }}" {% if heroi.id == crime.res_hero_id %}selected{% endif %}>
                                             {{ heroi.hero_name }}
                                         </option>
                                     {% endfor %}
-                                </select><br>
+                                </select>
+                                
                                 <label>Severidade:</label>
                                 <select id="severity_edit_{{ crime.id }}" name="severity">
                                     {% for i in range(1, 11) %}

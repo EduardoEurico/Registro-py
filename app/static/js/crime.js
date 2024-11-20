@@ -68,6 +68,49 @@ document.addEventListener("DOMContentLoaded", function() {
     // Seleciona todos os botões de editar
     const editButtons = document.querySelectorAll('.edit-button');
 
+    document.querySelectorAll(".edit-button").forEach(button => {
+        button.addEventListener("click", async (event) => {
+            const crimeId = event.target.dataset.id; // ID do crime
+            const heroSelect = document.getElementById(`res_hero_${crimeId}`);
+
+            if (!heroSelect) {
+                console.error(`Elemento com ID 'res_hero_${crimeId}' não encontrado.`);
+                return;
+            }
+
+            try {
+                // Realiza a chamada à API para buscar os heróis
+                const response = await fetch("/heroes/heroes");
+                const heroes = await response.json();
+
+                // Limpa as opções existentes
+                heroSelect.innerHTML = '';
+
+                // Adiciona os heróis como opções no select
+                heroes.forEach(hero => {
+                    const option = document.createElement("option");
+                    option.value = hero.id;
+                    option.textContent = hero.hero_name;
+
+                    // Marca o herói já associado como selecionado
+                    if (hero.id == heroSelect.dataset.selectedHero) {
+                        option.selected = true;
+                    }
+
+                    heroSelect.appendChild(option);
+                });
+
+                // Exibe o formulário de edição (caso esteja oculto)
+                const editForm = document.querySelector(`#crime-${crimeId} .edit-form`);
+                if (editForm) {
+                    editForm.style.display = "block";
+                }
+            } catch (error) {
+                console.error("Erro ao carregar os heróis:", error);
+            }
+        });
+    });
+
     editButtons.forEach(button => {
         button.addEventListener('click', function() {
             const crimeId = this.dataset.id; // Obtém o ID do crime
