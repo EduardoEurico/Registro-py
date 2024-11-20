@@ -24,8 +24,8 @@ def calculate_battle(hero1_id, hero2_id):
         loser = hero1
 
     # Atualizar popularidade
-    winner.popularity += 1
-    loser.popularity -= 1
+    winner.popularity += 10
+    loser.popularity -= 10
 
     # Atualizar status dos heróis com base na popularidade
     atualizar_status_heroi(winner)

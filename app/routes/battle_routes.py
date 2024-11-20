@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request, jsonify
 from app.models.modelos import db, Heroi, Battle
 from datetime import datetime
-from app.services.Factory.Battle import create_battle, calculate_battle
+from app.services.batalha import create_battle, calculate_battle
 import logging
 
 battles_bp = Blueprint('battles', __name__, url_prefix='/battles')

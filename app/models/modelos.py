@@ -84,7 +84,7 @@ class Battle(db.Model):
     def to_dict(self):
         return {
             'id': self.id,
-            'battle_date': self.battle_date.strftime('%Y-%m-%d'),
+            'battle_date': self.battle_date,  # Corrigido para não usar strftime
             'hero1_name': self.hero1.hero_name,
             'hero2_name': self.hero2.hero_name,
             'hero1_strength': self.hero1_strength,
