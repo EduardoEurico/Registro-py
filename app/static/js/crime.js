@@ -210,10 +210,12 @@ document.addEventListener("DOMContentLoaded", async () => {
 
         heroes.forEach(hero => {
             const option = document.createElement('option');
-            option.value = hero.id;
             option.textContent = hero.hero_name;
+
             heroSelect.appendChild(option);
         });
+        //log dos dados
+        console.log("Dados dos heróis carregados:", heroes);
     } catch (error) {
         console.error('Erro ao carregar os heróis:', error);
     }

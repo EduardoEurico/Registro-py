@@ -1,3 +1,4 @@
+from datetime import datetime
 from app import db
 
 class Heroi(db.Model):
@@ -15,10 +16,9 @@ class Heroi(db.Model):
     strength_level = db.Column(db.Integer, nullable=False)
     popularity = db.Column(db.Integer, default=0)
     status = db.Column(db.String(20), default="Ativo")
+    losses = db.Column(db.Integer, default=0)  # Novo campo para derrotas
 
-   
     crimes = db.relationship('Crime', back_populates='hero')  # Relacionamento com crimes
-
 
     def to_dict(self):
         return {
@@ -34,11 +34,12 @@ class Heroi(db.Model):
             "strength_level": self.strength_level,
             "popularity": self.popularity,
             "status": self.status,
-            
+            "losses": self.losses
         }
 
     def __repr__(self):
         return f"<Heroi {self.hero_name}>"
+
 
 class Crime(db.Model):
     __tablename__ = 'crimes'
@@ -54,10 +55,6 @@ class Crime(db.Model):
 
     hero  = db.relationship('Heroi', back_populates='crimes')  # Relacionamento
 
-
-
-
-
     def to_dict(self):
         return {
             'id': self.id,
@@ -70,3 +67,41 @@ class Crime(db.Model):
 
     def __repr__(self):
         return f"<Crime {self.crime_name}>"
+
+class Battle(db.Model):
+    __tablename__ = 'battles'
+
+    id = db.Column(db.Integer, primary_key=True)
+    battle_date = db.Column(db.String(100), nullable=False)
+    hero1_id = db.Column(db.Integer, db.ForeignKey('herois.id'), nullable=False)
+    hero2_id = db.Column(db.Integer, db.ForeignKey('herois.id'), nullable=False)
+    winner_id = db.Column(db.Integer, db.ForeignKey('herois.id'), nullable=False)
+    hero1_strength = db.Column(db.Integer, nullable=False)
+    hero2_strength = db.Column(db.Integer, nullable=False)
+
+    hero1 = db.relationship('Heroi', foreign_keys=[hero1_id])
+    hero2 = db.relationship('Heroi', foreign_keys=[hero2_id])
+    winner = db.relationship('Heroi', foreign_keys=[winner_id])
+
+    def to_dict(self):
+        battle_date_obj = datetime.strptime(self.battle_date, '%Y-%m-%d')
+        current_date = datetime.utcnow()
+
+        if battle_date_obj > current_date:
+            winner_name = "A decidir"
+        else:
+            winner_name = self.winner.hero_name
+
+        return {
+            'id': self.id,
+            'battle_date': self.battle_date,
+            'hero1_name': self.hero1.hero_name,
+            'hero2_name': self.hero2.hero_name,
+            'hero1_strength': self.hero1_strength,
+            'hero2_strength': self.hero2_strength,
+            'winner_name': winner_name,
+        }
+
+    def __repr__(self):
+        return f"<Battle {self.hero1.hero_name} vs {self.hero2.hero_name}>"
+    

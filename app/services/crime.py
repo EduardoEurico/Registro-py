@@ -7,6 +7,8 @@ import logging
 
 def add_crime(request):
     data = request.json  # Recebe os dados do cliente
+    logging.debug(f"Dados recebidos: {data}")  # Log dos dados recebidos
+
     try:
         hero_name = data.get('res_hero')
         hero = Heroi.query.filter_by(hero_name=hero_name).first()
@@ -25,9 +27,10 @@ def add_crime(request):
             crime_name=data.get('crime_name'),
             description=data.get('description'),
             crime_date=datetime.strptime(data.get('crime_date'), "%Y-%m-%d"),
-            res_hero_id=data.get('id'),  # Associando ao ID do herói
             res_hero=hero.hero_name,  # Atribuindo o nome correto do herói
-            severity=severity  # A severidade agora é um número inteiro
+            severity=severity,  # A severidade agora é um número inteiro
+            res_hero_id=hero.id,  # Associando ao ID do herói
+
         )
 
         # Atualizar a popularidade do herói
