@@ -11,10 +11,14 @@ def add_crime(request):
         hero_name = data.get('res_hero')
         hero = Heroi.query.filter_by(hero_name=hero_name).first()
 
-       
+        if not hero:
+            return jsonify({"error": "Herói não encontrado."}), 404
 
         # Garantir que a severidade seja um número inteiro
-        severity = int(data.get('severity'))  # Convertendo para inteiro
+        try:
+            severity = int(data.get('severity'))
+        except ValueError:
+            return jsonify({"error": "Severidade deve ser um número inteiro."}), 400
 
         # Criar uma nova instância de Crime associada ao herói encontrado
         new_crime = Crime(
@@ -32,9 +36,6 @@ def add_crime(request):
         db.session.add(new_crime)
         db.session.commit()
 
-        # Salvar alterações na popularidade do herói
-        db.session.commit()
-
         return jsonify({
             "message": "Crime adicionado com sucesso!",
             "crime": new_crime.to_dict()
@@ -48,6 +49,7 @@ def add_crime(request):
         db.session.rollback()
         logging.debug(f"Dados recebidos: {data}")  # Log dos dados recebidos
         return jsonify({"error": f"Erro ao adicionar crime: {str(e)}"}), 500
+
 
     
 

@@ -1,3 +1,4 @@
+
 document.getElementById("cadastroCrime").addEventListener("submit", async (event) => {
     event.preventDefault();
 
@@ -6,13 +7,17 @@ document.getElementById("cadastroCrime").addEventListener("submit", async (event
     // Se houver um valor para a data, formate para o padrão ISO "YYYY-MM-DD"
     const formattedCrimeDate = crimeDate ? new Date(crimeDate).toISOString().split('T')[0] : null;
 
+    if (!formattedCrimeDate) {
+        alert("Data do crime é obrigatória.");
+        return;
+    }
+
     const dados = {
         crime_name: document.getElementById("crime_name").value,
         description: document.getElementById("description").value,
         crime_date: formattedCrimeDate, // Convertendo para o formato adequado
         res_hero: document.getElementById("res_hero").value,
-        severity: document.getElementById("severity").value // Campo de severidade
-        
+        severity: parseInt(document.getElementById("severity").value) // Garantir que severidade seja número
     };
 
     console.log("Dados a serem enviados:", dados);
@@ -34,6 +39,7 @@ document.getElementById("cadastroCrime").addEventListener("submit", async (event
         console.error("Erro ao cadastrar crime:", error);
     }
 });
+
 // Função para excluir um crime
 document.querySelectorAll('.delete-button').forEach(button => {
     button.addEventListener('click', function() {
@@ -213,33 +219,4 @@ document.addEventListener("DOMContentLoaded", async () => {
     }
 });
 
-document.addEventListener("DOMContentLoaded", async () => {
-    const heroSelect = document.getElementById("res_hero_{{ crime.id }}");
-
-    // Verifique se o elemento foi encontrado
-    
-
-    try {
-        const response = await fetch("/heroes/heroes");  // Ajuste o caminho conforme necessário
-        const heroes = await response.json();
-        
-        if (heroes.error) {
-            console.error("Erro do servidor:", heroes.error);
-            return;
-        }
-
-        // Limpa as opções existentes
-        heroSelect.innerHTML = '';
-        
-        // Adiciona as opções de heróis dinamicamente
-        heroes.forEach(hero => {
-            const option = document.createElement("option");
-            option.value = hero.id;  // Certifique-se de que 'id' está correto
-            option.textContent = hero.hero_name;  // Verifique se 'hero_name' está correto
-
-            heroSelect.appendChild(option);
-        });
-    } catch (error) {
-        console.error("Erro ao carregar os heróis:", error);
-    }
-});
+// Removed duplicate DOMContentLoaded event listener
