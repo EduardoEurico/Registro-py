@@ -36,6 +36,12 @@ def add_hero(request):
             losses=int(data.get('derrotas', 0))  # Novo campo para derrotas
         )
 
+<<<<<<< HEAD
+=======
+
+
+        # Adiciona o novo herói ao banco de dados
+>>>>>>> 8570355d66d67c7ec0a43aa4134ed6515cdb51e5
         db.session.add(new_hero)
         db.session.commit()
         logging.debug("Herói cadastrado com sucesso!")
@@ -79,7 +85,7 @@ def atualizar_heroi(id):
         heroi.status = data.get('status', heroi.status)
         heroi.losses = data.get('losses', heroi.losses)  # Novo campo para derrotas
 
-        atualizar_status_heroi(heroi)
+        
 
         db.session.commit()
         return jsonify({"message": "Herói atualizado com sucesso!", "heroi": heroi.to_dict()}), 200
