@@ -12,8 +12,7 @@ def add_hero(request):
         # Verifique se a data de nascimento foi recebida
         if not data.get('data_nascimento'):
             logging.error("Data de nascimento não foi fornecida.")
-            return {"error": "Data de nascimento não foi fornecida. {data}" }, 400
-        
+            return {"error": "Data de nascimento não foi fornecida."}, 400
         
         # Log de todos os dados recebidos
         for key, value in data.items():
@@ -33,13 +32,10 @@ def add_hero(request):
             gender=data.get('genero'),  # Novo campo para gênero
             height=float(data.get('altura', 0)),  # Novo campo para altura
             weight=float(data.get('peso', 0)),  # Novo campo para peso
-            status=data.get('status', 'Ativo')
+            status=data.get('status', 'Ativo'),
+            losses=int(data.get('derrotas', 0))  # Novo campo para derrotas
         )
 
-        atualizar_status_heroi(new_hero)
-
-
-        # Adiciona o novo herói ao banco de dados
         db.session.add(new_hero)
         db.session.commit()
         logging.debug("Herói cadastrado com sucesso!")
@@ -50,31 +46,24 @@ def add_hero(request):
         logging.error(f"Erro ao cadastrar herói: {str(e)}")  # Log do erro
         db.session.rollback()
         return {"error": str(e)}, 400
+
 def listar_herois():
     heroi = Heroi.query.all()
     heroi_json = [heroi.to_dict() for heroi in heroi]
     return jsonify(heroi_json), 200
 
-
 def obter_herois(id):
-    """
-    Rota para obter um heroi específico pelo ID.
-    """
     heroi = Heroi.query.get(id)
     if heroi:
         return jsonify(heroi.to_dict()), 200
-    return jsonify({"error": "heroi não encontrado."}), 404
+    return jsonify({"error": "Herói não encontrado."}), 404
 
 def atualizar_heroi(id):
-    """
-    Rota para atualizar os dados de um heroi pelo ID.
-    Recebe os dados em JSON e atualiza no banco de dados.
-    """
     data = request.get_json()
     heroi = Heroi.query.get(id)
 
     if not heroi:
-        return jsonify({"error": "Heroi não encontrado."}), 404
+        return jsonify({"error": "Herói não encontrado."}), 404
 
     try:
         heroi.real_name = data.get('real_name', heroi.real_name)
@@ -83,37 +72,28 @@ def atualizar_heroi(id):
         heroi.strength_level = data.get('strength_level', heroi.strength_level)
         heroi.popularity = data.get('popularity', heroi.popularity)
         heroi.birth_date = data.get('birth_date', heroi.birth_date)
-        heroi.birth_place = data.get('birth_place', heroi.birth)
+        heroi.birth_place = data.get('birth_place', heroi.birth_place)
         heroi.gender = data.get('gender', heroi.gender)
         heroi.height = data.get('height', heroi.height)
         heroi.weight = data.get('weight', heroi.weight)                       
         heroi.status = data.get('status', heroi.status)
+        heroi.losses = data.get('losses', heroi.losses)  # Novo campo para derrotas
 
         atualizar_status_heroi(heroi)
 
-
         db.session.commit()
-        return jsonify({"message": "Lista de Herois atualizada com sucesso!", "heroi": heroi.to_dict()}), 200
+        return jsonify({"message": "Herói atualizado com sucesso!", "heroi": heroi.to_dict()}), 200
 
     except Exception as e:
         db.session.rollback()
-        return jsonify({"error": f"Erro ao atualizar crime: {str(e)}"}), 500
-    
+        return jsonify({"error": f"Erro ao atualizar herói: {str(e)}"}), 500
+
 def atualizar_status_heroi(heroi):
-    """
-    Função para atualizar o status do herói com base na popularidade e derrotas.
-    """
-    # Se a popularidade for menor que 20, o status é Inativo
     if heroi.popularity < 20:
         heroi.status = "Inativo"
-    
-    # Se a popularidade for menor ou igual a 0, o status é Banido
     if heroi.popularity <= 0:
         heroi.status = "Banido"
-
-    # Considerando derrotas (adicione lógica de derrotas aqui se necessário)
-    # Por exemplo, se derrotas forem mais de 5, o status pode ser alterado para "Inativo"
-    if heroi.losses > 5:  # Suponha que 'losses' seja o número de derrotas
+    if hasattr(heroi, 'losses') and heroi.losses > 5:
         heroi.status = "Inativo"
 
     db.session.commit()  # Salva as alterações no banco de dados

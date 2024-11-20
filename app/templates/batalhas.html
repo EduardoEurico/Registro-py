@@ -1,0 +1,53 @@
+<!-- templates/cadastrar_batalha.html -->
+{% extends "base.html" %}
+
+{% block title %}Cadastrar Batalha{% endblock %}
+
+{% block content %}
+<div class="table-container">
+    <h2>Lista de Batalhas</h2>
+    <table class="battle-table">
+        <thead>
+            <tr>
+                <th>Data da Batalha</th>
+                <th>Nome do Herói 1</th>
+                <th>Nome do Herói 2</th>
+                <th>Força do Herói 1</th>
+                <th>Força do Herói 2</th>
+                <th>Vencedor</th>
+            </tr>
+        </thead>
+        <tbody id="battleList">
+            <!-- Exibe a lista de batalhas -->
+            {% for battle in battles %}
+                <tr>
+                    <td>{{ battle.battle_date }}</td>
+                    <td>{{ battle.hero1_name }}</td>
+                    <td>{{ battle.hero2_name }}</td>
+                    <td>{{ battle.hero1_strength }}</td>
+                    <td>{{ battle.hero2_strength }}</td>
+                    <td>{{ battle.winner_name }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="battle-container">
+    <h1>Cadastrar Batalha</h1>
+    <form id="cadastroBatalha">
+        <label for="hero1_id">Desafiante:</label>
+        <input type="number" id="hero1_id" name="hero1_id" required>
+    
+        <label for="hero2_id">Adversário:</label>
+        <input type="number" id="hero2_id" name="hero2_id" required>
+    
+        <label for="battle_date">Data da Batalha:</label>
+        <input type="date" id="battle_date" name="battle_date" required>
+    
+        <button class="submit-button" type="submit">Cadastrar</button>
+    </form>
+</div>
+
+<script src="{{ url_for('static', filename='./js/battle.js') }}"></script>
+{% endblock %}
