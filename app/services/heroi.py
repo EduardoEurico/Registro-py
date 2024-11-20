@@ -36,7 +36,6 @@ def add_hero(request):
             status=data.get('status', 'Ativo')
         )
 
-        atualizar_status_heroi(new_hero)
 
 
         # Adiciona o novo herói ao banco de dados

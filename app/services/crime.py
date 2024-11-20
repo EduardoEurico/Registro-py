@@ -11,8 +11,7 @@ def add_crime(request):
         hero_name = data.get('res_hero')
         hero = Heroi.query.filter_by(hero_name=hero_name).first()
 
-        if not hero:
-            return jsonify({"error": "Herói não encontrado"}), 404
+       
 
         # Garantir que a severidade seja um número inteiro
         severity = int(data.get('severity'))  # Convertendo para inteiro
@@ -22,7 +21,7 @@ def add_crime(request):
             crime_name=data.get('crime_name'),
             description=data.get('description'),
             crime_date=datetime.strptime(data.get('crime_date'), "%Y-%m-%d"),
-            res_hero_id=hero.id,  # Associando ao ID do herói
+            res_hero_id=data.get('id'),  # Associando ao ID do herói
             res_hero=hero.hero_name,  # Atribuindo o nome correto do herói
             severity=severity  # A severidade agora é um número inteiro
         )
