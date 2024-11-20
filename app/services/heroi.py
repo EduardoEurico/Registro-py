@@ -36,6 +36,7 @@ def add_hero(request):
             status=data.get('status', 'Ativo')
         )
 
+        atualizar_status_heroi(new_hero)
 
 
         # Adiciona o novo herói ao banco de dados
@@ -88,7 +89,7 @@ def atualizar_heroi(id):
         heroi.weight = data.get('weight', heroi.weight)                       
         heroi.status = data.get('status', heroi.status)
 
-        atualizar_status_heroi(heroi)
+        
 
 
         db.session.commit()

@@ -74,24 +74,31 @@ def obter_crime(id):
 
 
 def atualizar_crime(id):
-    """
-    Rota para atualizar os dados de um crime pelo ID.
-    Recebe os dados em formato de JSON e atualiza no banco de dados.
-    """
     crime = Crime.query.get(id)
 
     if not crime:
-        return jsonify({"error": "Crime não encontrado."}), 404
+        return jsonify({"error": "Crime não encontrado!"}), 404
 
     try:
-        # Atualiza os campos com os valores enviados via JSON
-        dados = request.get_json()
+        data = request.json
+        crime.crime_name = data.get('crime_name', crime.crime_name)
+        crime.description = data.get('description', crime.description)
 
-        crime.crime_name = dados.get('crime_name', crime.crime_name)
-        crime.description = dados.get('description', crime.description)
-        crime.crime_date = dados.get('crime_date', crime.crime_date)
-        crime.res_hero = dados.get('res_hero', crime.res_hero)
-        crime.severity = dados.get('severity', crime.severity)
+        # Atualiza a data do crime, se fornecida
+        if data.get('crime_date'):
+            crime.crime_date = datetime.strptime(data['crime_date'], '%Y-%m-%d')
+
+        # Atualiza o herói responsável
+        new_hero_id = data.get('res_hero')
+        if new_hero_id:
+            hero = Heroi.query.get(new_hero_id)
+            if hero:
+                crime.res_hero_id = hero.id
+                crime.res_hero = hero.hero_name
+            else:
+                return jsonify({"error": "Herói não encontrado!"}), 404
+
+        crime.severity = data.get('severity', crime.severity)
 
         db.session.commit()
         return jsonify({"message": "Crime atualizado com sucesso!", "crime": crime.to_dict()}), 200
@@ -99,6 +106,7 @@ def atualizar_crime(id):
     except Exception as e:
         db.session.rollback()
         return jsonify({"error": f"Erro ao atualizar crime: {str(e)}"}), 500
+
 
 
 def deletar_crime(id):
@@ -121,3 +129,5 @@ def deletar_crime(id):
         db.session.rollback()
         print(f"Erro ao deletar crime: {str(e)}")  
         return jsonify({"error": f"Erro ao deletar crime: {str(e)}"}), 500
+def formatar_data(data):
+    return data.strftime('%Y-%m-%d') if data else ''

@@ -96,9 +96,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 .then(data => {
                     document.getElementById(`crime_name_edit_${crimeId}`).value = data.crime_name;
                     document.getElementById(`description_edit_${crimeId}`).value = data.description;
-                    document.getElementById(`crime_date_edit_${crimeId}`).value = data.crime_date;
+                    document.getElementById(`crime_date_edit_${crimeId}`).value = data.crime_date ? new Date(data.crime_date).toISOString().split('T')[0] : '';
                     document.getElementById(`severity_edit_${crimeId}`).value = data.severity;
-                    document.getElementById(`res_hero${crimeId}`).value = data.res_hero;
+                    document.getElementById(`res_hero_${crimeId}`).value = data.res_hero;
                 })
                 .catch(error => console.error('Erro ao obter dados do crime:', error));
         });
@@ -116,7 +116,7 @@ document.addEventListener("DOMContentLoaded", function() {
             const description = document.getElementById(`description_edit_${crimeId}`).value;
             const crimeDate = document.getElementById(`crime_date_edit_${crimeId}`).value;
             const severity = document.getElementById(`severity_edit_${crimeId}`).value;
-            const resHero = document.getElementById(`res_hero_edit_${crimeId}`).value;
+            const resHero = document.getElementById(`res_hero_${crimeId}`).value;
 
             const formattedCrimeDate = crimeDate ? new Date(crimeDate).toISOString().split('T')[0] : null;
 
@@ -150,43 +150,49 @@ document.addEventListener("DOMContentLoaded", function() {
 document.addEventListener("DOMContentLoaded", async () => {
     const heroSelect = document.getElementById("res_hero");
 
+    if (!heroSelect) {
+        console.error("Elemento com ID 'res_hero' não encontrado.");
+        return;
+    }
+
     try {
-        const response = await fetch("/heroes/heroes");  // Ajuste o caminho conforme necessário
+        const response = await fetch('/heroes/heroes');
         const heroes = await response.json();
 
-        if (heroes.error) {
-            console.error("Erro do servidor:", heroes.error);
-            return;
-        }
-
         heroes.forEach(hero => {
-            const option = document.createElement("option");
-            option.value = hero.hero_name;  // ID do herói
-            option.textContent = hero.hero_name;  // Alterado para 'hero_name'
-
+            const option = document.createElement('option');
+            option.value = hero.id;
+            option.textContent = hero.hero_name;
             heroSelect.appendChild(option);
         });
     } catch (error) {
-        console.error("Erro ao carregar os heróis:", error);
+        console.error('Erro ao carregar os heróis:', error);
     }
 });
 
 document.addEventListener("DOMContentLoaded", async () => {
-    const heroSelect = document.getElementById("res_hero{{ crime.id }}");
+    const heroSelect = document.getElementById("res_hero_{{ crime.id }}");
+
+    // Verifique se o elemento foi encontrado
+    
 
     try {
         const response = await fetch("/heroes/heroes");  // Ajuste o caminho conforme necessário
         const heroes = await response.json();
-
+        
         if (heroes.error) {
             console.error("Erro do servidor:", heroes.error);
             return;
         }
 
+        // Limpa as opções existentes
+        heroSelect.innerHTML = '';
+        
+        // Adiciona as opções de heróis dinamicamente
         heroes.forEach(hero => {
             const option = document.createElement("option");
-            option.value = hero.hero_name;  // ID do herói
-            option.textContent = hero.hero_name;  // Alterado para 'hero_name'
+            option.value = hero.id;  // Certifique-se de que 'id' está correto
+            option.textContent = hero.hero_name;  // Verifique se 'hero_name' está correto
 
             heroSelect.appendChild(option);
         });
