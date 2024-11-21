@@ -26,7 +26,9 @@ CREATE TABLE herois (
     powers VARCHAR(255) NOT NULL,
     strength_level INTEGER NOT NULL,
     popularity INTEGER DEFAULT 0,
-    status VARCHAR(20) DEFAULT 'Ativo'
+    status VARCHAR(20) DEFAULT 'Ativo',
+    losses INTEGER DEFAULT 0
+
 );
 CREATE TABLE crimes (
     id SERIAL PRIMARY KEY,
