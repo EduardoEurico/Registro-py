@@ -15,7 +15,7 @@ def add_mission():
         if missing_fields:
             logging.error(f"Campos obrigatórios ausentes: {missing_fields}")
             return {"error": f"Campos obrigatórios ausentes: {missing_fields}"}, 400
-
+        
         # Verifica se o resultado é válido (deve ser "Sucesso" ou "Fracasso")
         if data['resultado'] not in ['Sucesso', 'Fracasso']:
             logging.error(f"Resultado inválido: {data['resultado']}")
@@ -35,6 +35,18 @@ def add_mission():
         if len(herois) != len(herois_ids):
             logging.error("Alguns heróis designados não foram encontrados no banco de dados.")
             return {"error": "Alguns heróis designados não foram encontrados."}, 400
+
+        difficulty = int(data['difficulty'])
+
+        # Valida compatibilidade entre dificuldade e força dos heróis
+        incompatibles = [
+            heroi.hero_name for heroi in herois if abs(heroi.strength_level - difficulty) > 2
+        ]
+        if incompatibles:
+            logging.error(f"Heróis incompatíveis: {incompatibles}")
+            return {
+                "error": f"Os seguintes heróis não podem ser designados devido à incompatibilidade de força: {', '.join(incompatibles)}"
+            }, 400
 
         # Cria a nova missão
         new_mission = Missao(
