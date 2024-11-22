@@ -1,0 +1,72 @@
+{% extends "base.html" %}
+
+{% block title %}Cadastrar Missão{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/missoes.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="table-container">
+    <h2>Lista de Missões</h2>
+    <table class="mission-table">
+        <thead>
+            <tr>
+                <th>Nome da Missão</th>
+                <th>Descrição</th>
+                <th>Dificuldade</th>
+                <th>Heróis Designados</th>
+                <th>Resultado</th>
+                <th>Recompensa</th>
+            </tr>
+        </thead>
+        <tbody id="missionList">
+            {% for mission in missions %}
+                <tr>
+                    <td>{{ mission.mission_name }}</td>
+                    <td>{{ mission.description }}</td>
+                    <td>{{ mission.difficulty }}</td>
+                    <td>{{ mission.des_heroes }}</td>
+                    <td>{{ mission.resultado }}</td>
+                    <td>{{ mission.reward }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<div class="mission-container">
+    <h1>Cadastrar Missão</h1>
+    <form id="cadastroMissao">
+        <label for="mission_name">Nome da Missão:</label>
+        <input type="text" id="mission_name" name="mission_name" required>
+
+        <label for="description">Descrição:</label>
+        <textarea id="description" name="description" required></textarea>
+
+        <label for="difficulty">Dificuldade:</label>
+        <select id="difficulty" name="difficulty" required>
+            <option value="1">1 - Muito Fácil</option>
+            <option value="2">2 - Fácil</option>
+            <option value="3">3 - Moderada</option>
+            <option value="4">4 - Difícil</option>
+            <option value="5">5 - Muito Difícil</option>
+        </select>
+        <label for="des_heroes">Heróis Designados:</label>
+        <select id="des_heroes" name="des_heroes" multiple required>
+            {% for heroi in herois %}
+                <option value="{{ heroi.id }}">{{ heroi.hero_name }}</option>
+            {% endfor %}
+        </select>
+        <small>Segure "Ctrl" ou "Cmd" para selecionar múltiplos heróis</small>
+        <label for="resultado">Resultado:</label>
+        <select id="resultado" name="resultado" required>
+            <option value="Sucesso">Sucesso</option>
+            <option value="Fracasso">Fracasso</option>
+            <option value="Em Andamento">Em Andamento</option>
+        </select>
+        <label for="reward">Recompensa:</label>
+        <input type="text" id="reward" name="reward" required>
+        <button class="submit-button" type="submit">Cadastrar</button>
+    </form>
+</div>
+{% endblock %}

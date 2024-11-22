@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Cadastrar Crime{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{{ url_for('static', filename='css/crimes.css') }}">
+{% endblock %}
+
+{% block content %}
+<div class="crime-container">
+    <h1>Cadastrar Crime</h1>
+    <form id="cadastroCrime" action="/crimes/cadastrar" method="POST">
+        <label for="crime_name">Nome do Crime:</label>
+        <input type="text" id="crime_name" name="crime_name" required>
+
+        <label for="description">Descrição:</label>
+        <textarea id="description" name="description" required></textarea>
+
+        <label for="crime_date">Data do Crime:</label>
+        <input type="date" id="crime_date" name="crime_date" required>
+
+        <button type="submit" class="submit-button">Cadastrar Crime</button>
+    </form>
+</div>
+{% endblock %}

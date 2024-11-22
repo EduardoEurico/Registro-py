@@ -1,0 +1,11 @@
+.battle-container {
+    padding: 1rem;
+    margin: 2rem auto;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    color: #6f42c1;
+}

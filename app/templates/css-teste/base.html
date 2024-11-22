@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Meu Aplicativo{% endblock %}</title>
+    <link rel="stylesheet" href="base.css">
+</head>
+<body>
+    <header>
+        <h1>Banco de Dados de Heróis</h1>
+    </header>
+    <nav>
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/heroes/herois">Heróis</a></li>
+            <li><a href="/crimes/pagina">Crimes</a></li>
+            <li><a href="/battles/">Batalhas</a></li>
+        </ul>
+    </nav>
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+    <footer>
+        <p>&copy; 2024 Meu Aplicativo</p>
+    </footer>
+</body>
+</html>

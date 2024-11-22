@@ -1,0 +1,39 @@
+.mission-container {
+    margin: 2rem auto;
+    max-width: 800px;
+    padding: 1rem;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+h1, h2 {
+    color: #007bff;
+    text-align: center;
+}
+
+.table-container {
+    margin: 2rem auto;
+    width: 90%;
+    max-width: 1200px;
+    background: #fff;
+    padding: 1rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    text-align: left;
+    padding: 8px;
+}
+
+th {
+    background-color: #495057;
+    color: #fff;
+}
