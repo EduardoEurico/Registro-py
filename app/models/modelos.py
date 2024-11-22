@@ -104,4 +104,28 @@ class Battle(db.Model):
 
     def __repr__(self):
         return f"<Battle {self.hero1.hero_name} vs {self.hero2.hero_name}>"
-    
+
+class Missao(db.Model):
+    __tablename__ = 'missoes'
+
+    id = db.Column(db.Integer, primary_key=True)
+    mission_name = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.String(255), nullable=False)
+    difficulty = db.Column(db.Integer, nullable=False)
+    des_heroes = db.Column(db.String(255), nullable=False)
+    resultado = db.Column(db.String(20), nullable=False)
+    reward = db.Column(db.String(255), nullable=False)
+
+    def to_dict(self):
+        return {
+            "id": self.id,
+            "mission_name": self.mission_name,
+            "description": self.description,
+            "difficulty": self.difficulty,
+            "des_heroes": self.des_heroes,
+            "resultado": self.resultado,
+            "reward": self.reward
+        }
+
+    def __repr__(self):
+        return f"<Missao {self.mission_name}>"

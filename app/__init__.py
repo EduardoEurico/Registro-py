@@ -19,10 +19,12 @@ def create_app():
     from app.routes.heroi_routes import heroes_bp  # Importação tardia para evitar a dependência circular
     from app.routes.crime_routes import crimes_bp  # Rotas para crimes
     from app.routes.battle_routes import battles_bp  # Importa as rotas de batalhas
+    from app.routes.missao_routes import missoes_bp #Importa as rotas das missões
 
     app.register_blueprint(index_bp)
     app.register_blueprint(heroes_bp)  # Registra o Blueprint com as rotas
     app.register_blueprint(crimes_bp)  # Registra o Blueprint com as rotas
     app.register_blueprint(battles_bp)  # Registra o Blueprint das batalhas
+    app.register_blueprint(missoes_bp) #Registra o Blueprint das missões
 
     return app
