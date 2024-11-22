@@ -1,11 +1,106 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
-</html>
+<!-- templates/cadastrar_missao.html -->
+{% extends "base.html" %}
+
+{% block title %}Cadastrar Missão{% endblock %}
+
+{% block content %}
+    <!-- Lista de Missões Cadastradas -->
+    <div class="table-container">
+        <h2>Lista de Missões</h2>
+        <table class="mission-table">
+            <thead>
+                <tr>
+                    <th>Nome da Missão</th>
+                    <th>Descrição</th>
+                    <th>Dificuldade</th>
+                    <th>Heróis Designados</th>
+                    <th>Resultado</th>
+                    <th>Recompensa</th>
+                    <th>Ações</th>
+                </tr>
+            </thead>
+            <tbody id="missionList">
+                <!-- A lista de missões será populada dinamicamente aqui -->
+                {% for mission in missions %}
+                <tr id="mission-{{ mission.id }}">
+                    <td>{{ mission.mission_name }}</td>
+                    <td>{{ mission.description }}</td>
+                    <td>{{ mission.difficulty }}</td>
+                    <td>{{ mission.des_heroes }}</td>
+                    <td>{{ mission.resultado }}</td>
+                    <td>{{ mission.reward }}</td>
+                    <td>
+                        <button class="mission-action-link delete-button" data-id="{{ mission.id }}">Excluir</button>
+                        <!-- Formulário de edição que será ocultado inicialmente -->
+                        <div class="edit-form" style="display: none;">
+                            <input type="hidden" name="id" value="{{ mission.id }}">
+                            <label>Nome Missão:</label>
+                            <input type="text" id="mission_name_edit_{{ mission.id }}" value="{{ mission.mission_name }}"><br>
+                            <label>Descrição:</label>
+                            <input type="text" id="description_edit_{{ mission.id }}" value="{{ mission.description }}"><br>
+                            <label>Dificuldade:</label>
+                            <input type="number" id="difficulty_edit_{{ mission.id }}" value="{{ mission.difficulty }}" min="1" max="10"><br>
+
+                            <label for="assigned_heroes_{{ mission.id }}">Heróis Designados:</label>
+                            <select id="assigned_heroes_{{ mission.id }}" name="assigned_heroes" multiple>
+                                {% for heroi in herois %}
+                                    <option value="{{ heroi.id }}" {% if heroi.id in mission.assigned_hero_ids %}selected{% endif %}>
+                                        {{ heroi.hero_name }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+
+                            <label>Resultado:</label>
+                            <select id="result_edit_{{ mission.id }}" name="result">
+                                <option value="Sucesso" {% if mission.result =='Sucesso' %}selected{% endif %}>Sucesso</option>
+                                <option value="Fracasso" {% if mission.result =='Fracasso' %}selected{% endif %}>Fracasso</option>
+                            </select><br>
+
+                            <label>Recompensa:</label>
+                            <input type="text" id="reward_edit_{{ mission.id }}" value="{{ mission.reward }}"><br>
+
+                            <button class="cancel-edit" data-id="{{ mission.id }}">Cancelar</button>
+                            <button class="submit-edit" data-id="{{ mission.id }}">Salvar Alterações</button>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Formulário de Cadastro de Missão -->
+    <div class="mission-container">
+        <h1 id="formTitle">Cadastrar Missão</h1>
+        <form id="cadastroMissao" action="/missoes/cadastrar" method="POST">
+            <label for="mission_name">Nome da Missão:</label>
+            <input type="text" id="mission_name" name="mission_name" required>
+
+            <label for="description">Descrição:</label>
+            <textarea id="description" name="description" required></textarea>
+
+            <label for="difficulty">Dificuldade:</label>
+            <input type="number" id="difficulty" name="difficulty" min="1" max="10" required>
+
+            <label for="assigned_heroes">Heróis Designados:</label>
+            <select id="assigned_heroes" name="assigned_heroes" multiple required>
+                {% for heroi in herois %}
+                    <option value="{{ heroi.id }}">{{ heroi.hero_name }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="result">Resultado:</label>
+            <select id="result" name="result" required>
+                <option value="Sucesso">Sucesso</option>
+                <option value="Fracasso">Fracasso</option>
+            </select>
+
+            <label for="reward">Recompensa:</label>
+            <input type="text" id="reward" name="reward">
+
+            <button type="submit" class="submit-button">Cadastrar Missão</button>
+        </form>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/missao.js') }}"></script>
+{% endblock %}

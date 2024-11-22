@@ -1,7 +1,8 @@
 from app.models.modelos import db, Heroi, Missao  # Certifique-se de importar os modelos necessários
 from datetime import datetime
 import logging
-from flask import request, jsonify
+from flask import request, jsonify, render_template
+
 
 def add_mission():
     data = request.json  # Recebe os dados do cliente
@@ -89,9 +90,15 @@ def get_missions_by_difficulty_and_hero(difficulty=None, hero_id=None):
         return {"error": str(e)}, 400
 
 def listar_missoes():
-    missao = Missao.query.all()
-    missao_json = [missao.to_dict() for missao in missao]
-    return jsonify(missao_json), 200
+    try:
+        missao = Missao.query.all()
+        return jsonify([missao.to_dict() for missao in missao])
+        #return jsonify(missao_json), 200
+        #return render_template('missoes.html', missao=missao)
+    except Exception as e:
+        logging.error(f"Erro ao listar missões: {str(e)}")
+        return {"error": str(e)}, 500
+
 
 def deletar_missao(id):
     missao = Missao.query.get(id)
