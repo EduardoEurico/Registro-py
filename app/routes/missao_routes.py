@@ -3,7 +3,7 @@ from app import db
 from app.models.modelos import Missao, Heroi
 from app.services.missao import add_mission, listar_missoes, get_missions_by_difficulty_and_hero, deletar_missao
 
-# Criando o Blueprint para crimes
+# Criando o Blueprint para missões
 missoes_bp = Blueprint('missoes', __name__)
 
 
