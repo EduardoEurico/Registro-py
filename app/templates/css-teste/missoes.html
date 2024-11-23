@@ -51,7 +51,7 @@
             <option value="4">4 - Difícil</option>
             <option value="5">5 - Muito Difícil</option>
         </select>
-        <label for="des_heroes">Heróis Designados:</label>
+        <label for="des_heroes">Herói Designado:</label>
         <select id="des_heroes" name="des_heroes" multiple required>
             {% for heroi in herois %}
                 <option value="{{ heroi.id }}">{{ heroi.hero_name }}</option>
