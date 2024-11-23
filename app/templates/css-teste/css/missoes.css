@@ -1,4 +1,4 @@
-.mission-container {
+.cadastro {
     margin: 2rem auto;
     max-width: 800px;
     padding: 1rem;
@@ -12,7 +12,7 @@ h1, h2 {
     text-align: center;
 }
 
-.table-container {
+.tabela {
     margin: 2rem auto;
     width: 90%;
     max-width: 1200px;

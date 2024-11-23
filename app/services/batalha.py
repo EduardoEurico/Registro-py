@@ -11,11 +11,18 @@ def calculate_battle(hero1_id, hero2_id):
     if not hero1 or not hero2:
         raise ValueError("Herói(s) não encontrado(s)")
 
-    strength_diff = abs(hero1.popularity - hero2.popularity) // 2
+    # Leve buff de força apenas para o herói com maior popularidade
+    if hero1.popularity > hero2.popularity:
+        hero1_strength = hero1.strength_level + (hero1.strength_level * 0.10)  # Buff de 10%
+        hero2_strength = hero2.strength_level
+    elif hero2.popularity > hero1.popularity:
+        hero2_strength = hero2.strength_level + (hero2.strength_level * 0.10)  # Buff de 10%
+        hero1_strength = hero1.strength_level
+    else:
+        hero1_strength = hero1.strength_level
+        hero2_strength = hero2.strength_level
 
-    hero1_strength = hero1.strength_level + (strength_diff if hero1.popularity > hero2.popularity else 0)
-    hero2_strength = hero2.strength_level + (strength_diff if hero2.popularity > hero1.popularity else 0)
-
+    # Determina o vencedor
     if hero1_strength > hero2_strength:
         winner = hero1
         loser = hero2
@@ -23,8 +30,9 @@ def calculate_battle(hero1_id, hero2_id):
         winner = hero2
         loser = hero1
 
-    # Atualizar popularidade
+    # Atualizar popularidade e força do vencedor
     winner.popularity += 10
+    winner.strength_level = int(winner.strength_level * 1.05)  # Ganha 5% de força como recompensa
     loser.popularity -= 10
 
     # Atualizar status dos heróis com base na popularidade

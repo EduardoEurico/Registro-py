@@ -36,15 +36,11 @@ def add_mission():
 
         difficulty = int(data['difficulty'])
 
-        # Valida compatibilidade entre dificuldade e força dos heróis
-        incompatibles = [
-            heroi.hero_name for heroi in herois if abs(heroi.strength_level - difficulty) > 2
-        ]
-        if incompatibles:
-            logging.error(f"Heróis incompatíveis: {incompatibles}")
-            return jsonify({
-                "error": f"Os seguintes heróis não podem ser designados devido à incompatibilidade de força: {', '.join(incompatibles)}"
-            }), 400
+        # Verifica se todos os heróis têm força suficiente para a missão
+        herois_sem_forca = [heroi.hero_name for heroi in herois if heroi.strength_level < difficulty]
+        if herois_sem_forca:
+            logging.error(f"Heróis sem força suficiente: {herois_sem_forca}")
+            return jsonify({"error": f"Os seguintes heróis não têm força suficiente para a missão: {', '.join(herois_sem_forca)}"}), 400
 
         # Cria a nova missão
         new_mission = Missao(
@@ -74,12 +70,13 @@ def add_mission():
         logging.debug("Commit realizado com sucesso!")
         logging.debug("Missão cadastrada com sucesso!")
 
-        return jsonify({"message": "Missão cadastrada e atribuída com sucesso!"}), 201
+        return jsonify({"message": "Missão cadastrada e atribuída com sucesso!", "herois_designados": [heroi.hero_name for heroi in herois]}), 201
 
     except Exception as e:
         logging.error(f"Erro ao cadastrar missão: {str(e)}")
         db.session.rollback()
         return jsonify({"error": str(e)}), 400
+
 
 def get_missions_by_difficulty_and_hero(difficulty=None, hero_id=None):
     try:
@@ -98,6 +95,7 @@ def get_missions_by_difficulty_and_hero(difficulty=None, hero_id=None):
         logging.error(f"Erro ao consultar missões: {str(e)}")
         return jsonify({"error": str(e)}), 400
 
+
 def listar_missoes():
     try:
         missao = Missao.query.all()
@@ -106,6 +104,7 @@ def listar_missoes():
     except Exception as e:
         logging.error(f"Erro ao listar missões: {str(e)}")
         return jsonify({"error": str(e)}), 500
+
 
 def deletar_missao(id):
     missao = Missao.query.get(id)

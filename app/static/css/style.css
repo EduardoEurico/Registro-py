@@ -13,7 +13,7 @@ body {
 }
 
 /* Container para o Formulário */
-.crime-container {
+.cadastro {
     background-color: #2c2f40; /* Fundo secundário */
     padding: 20px;
     border-radius: 8px;
@@ -67,7 +67,7 @@ button.submit-button:hover {
 }
 
 /* Estilizando a Tabela de Crimes */
-.table-container {
+.tabela {
     max-width: 1200px;
     margin: 0 auto;
     background-color: #2c2f40; /* Fundo secundário */
@@ -138,7 +138,7 @@ tr:hover {
 
 /* Responsividade */
 @media (max-width: 768px) {
-    .crime-container, .table-container {
+    .cadastro, .tabela {
         padding: 15px;
         max-width: 100%;
     }
@@ -157,7 +157,7 @@ tr:hover {
 }
 
 @media (max-width: 1024px) {
-    .crime-container, .table-container {
+    .cadastro, .tabela {
         padding: 15px;
         max-width: 100%;
     }
@@ -180,7 +180,7 @@ tr:hover {
 }
 
 @media (max-width: 768px) {
-    .crime-container {
+    .cadastro {
         padding: 12px;
         margin: 0 auto 20px;
     }
@@ -202,7 +202,7 @@ tr:hover {
         font-size: 16px;
     }
 
-    .table-container {
+    .tabela {
         padding: 15px;
     }
 
@@ -218,7 +218,7 @@ tr:hover {
 
 /* Ajuste para telas menores, como smartphones */
 @media (max-width: 480px) {
-    .crime-container {
+    .cadastro {
         padding: 10px;
         margin: 0 auto 15px;
     }
@@ -241,7 +241,7 @@ tr:hover {
         font-size: 14px;
     }
 
-    .table-container {
+    .tabela {
         overflow-x: auto;
         margin-top: 20px;
     }

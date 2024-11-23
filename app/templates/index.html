@@ -1,13 +1,42 @@
-<!-- templates/index.html -->
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Bem-vindo ao Mundo dos Heróis e Vilões - Inspirado em The Boys{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav>
+        <ul>
+            <li><a href="http://127.0.0.1:5000">Home</a></li>
+            <li><a href="http://127.0.0.1:5000/heroes/herois">Heróis</a></li>
+            <li><a href="http://127.0.0.1:5000/crimes/pagina">Crimes</a></li>
+            <li><a href="http://127.0.0.1:5000/battles/">Batalhas</a></li>
+            <li><a href="http://127.0.0.1:5000/missoes/pagina">Missões</a></li>
+            
+        </ul>
+    </nav>
+    <main>
+        <div class="cadastro">
+            <h2>Bem-vindo ao Banco de Dados de Heróis</h2>
+            <p>Não é apenas mais um sistema de cadastro de heróis e missões... Este é o lugar onde os heróis são testados, suas forças são colocadas à prova e a verdadeira face da luta entre bem e mal se revela.</p>
 
-{% block title %}Página Inicial{% endblock %}
+            <h3>Funcionalidades do Sistema:</h3>
+            <ul>
+                <li><strong>Cadastro de Heróis e Vilões:</strong> Adicione novos heróis e vilões ao nosso banco de dados, especificando seus poderes, níveis de força e popularidade. Assim como em The Boys, nem todos os heróis são o que parecem ser!</li>
+                <li><strong>Simulação de Batalhas:</strong> Coloque os heróis frente a frente em batalhas emocionantes. Cada batalha considera força, popularidade e fatores aleatórios — a glória é reservada para quem estiver à altura!</li>
+                <li><strong>Cadastro de Missões:</strong> Defina missões que desafiem os limites dos heróis. Dependendo do nível de dificuldade, alguns heróis podem não sair vitoriosos ou mesmo perder popularidade.</li>
+                <li><strong>Acompanhamento de Popularidade:</strong> Observe como as escolhas dos heróis — sucesso ou fracasso — impactam diretamente em sua popularidade. Assim como na temática de The Boys, popularidade é tão importante quanto força.</li>
+                <li><strong>Relatórios Detalhados:</strong> Cada batalha e missão gera um relatório detalhado. Veja como seus heróis se comportaram e se mantêm à altura de serem chamados de "heróis".</li>
+            </ul>
 
-{% block content %}
-<div>
-    <h2>Bem-vindo ao Banco de Dados de Heróis</h2>
-    
-    
-   
-</div>
-{% endblock %}
+            <p>Nesse mundo, os heróis podem ser celebridades com fãs que gritam seus nomes, mas também podem se tornar vilões ao fracassar em proteger inocentes. Seja bem-vindo e comece a explorar o verdadeiro lado dos super-heróis!</p>
+        </div>
+        {% block content %}{% endblock %}
+    </main>
+    <footer>
+        <p>&copy; 2024 Meu Aplicativo</p>
+    </footer>
+</body>
+</html>
