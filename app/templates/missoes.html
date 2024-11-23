@@ -41,7 +41,7 @@
                             <label>Dificuldade:</label>
                             <input type="number" id="difficulty_edit_{{ mission.id }}" value="{{ mission.difficulty }}" min="1" max="10"><br>
 
-                            <label for="assigned_heroes_{{ mission.id }}">Heróis Designados:</label>
+                            <label for="assigned_heroes_{{ mission.id }}">Herói Designado:</label>
                             <select id="assigned_heroes_{{ mission.id }}" name="assigned_heroes" multiple>
                                 {% for heroi in herois %}
                                     <option value="{{ heroi.id }}" {% if heroi.id in mission.assigned_hero_ids %}selected{% endif %}>
