@@ -1,42 +1,63 @@
-# Registro-py
-$env:FLASK_APP="app.py" 
-python -m venv venv
-Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass 
-.\venv\Scripts\Activate.ps1
+# API - Sistema de Gerenciamento de Heróis, Crimes, Batalhas e Missões
 
-pip install flask-migrate
+Bem-vindo à API de gerenciamento de heróis, crimes, batalhas e missões! Esta API foi desenvolvida para gerenciar informações de heróis, missões realizadas, crimes combatidos e batalhas entre heróis, inspirada na série *The Boys*. 
 
-flask db init
-flask db migrate -m "Criando a tabela herois"
-flask db upgrade
+---
 
+## Documentação Completa
+Para acessar a documentação completa e interativa da API, visite o link abaixo:
 
+[Documentação da API no Postman](https://documenter.getpostman.com/view/36430231/2sAYBUCX5o)
 
+---
 
-# Banco de dados
-CREATE TABLE herois (
-    id SERIAL PRIMARY KEY,
-    real_name VARCHAR(100) NOT NULL,
-    hero_name VARCHAR(100) NOT NULL,
-    gender VARCHAR(10),
-    height FLOAT,
-    weight FLOAT,
-    birth_date DATE,
-    birth_place VARCHAR(100),
-    powers VARCHAR(255) NOT NULL,
-    strength_level INTEGER NOT NULL,
-    popularity INTEGER DEFAULT 0,
-    status VARCHAR(20) DEFAULT 'Ativo',
-    losses INTEGER DEFAULT 0
+## Funcionalidades Principais
+### **Administração de Heróis**
+- Criação, consulta, atualização e remoção de heróis, com atributos como poderes, nível de força, popularidade e status.
 
-);
-CREATE TABLE crimes (
-    id SERIAL PRIMARY KEY,
-    crime_name VARCHAR(100) NOT NULL,
-    description VARCHAR(255) NOT NULL,
-    crime_date VARCHAR(100) NOT NULL,
-    severity INTEGER NOT NULL,
-    res_hero VARCHAR(100) NOT NULL,
-    res_hero_id INTEGER NOT NULL,
-    FOREIGN KEY (res_hero_id) REFERENCES herois(id) ON DELETE CASCADE
-);
+### **Missões**
+- Gerenciamento de missões realizadas pelos heróis, incluindo designação de heróis, recompensas e resultados.
+
+### **Crimes**
+- Registro e consulta de crimes combatidos pelos heróis, com detalhes como descrição, data e severidade.
+
+### **Batalhas**
+- Simulação de batalhas entre heróis, com cálculos de resultados e impacto nos atributos dos personagens.
+
+---
+
+## Como Começar
+1. **Registro:** Configure o ambiente da API localmente ou em um servidor.
+2. **Autenticação:** Esta versão da API não requer autenticação, mas recomenda-se implementá-la em sistemas reais.
+3. **Exploração:** Use a documentação interativa para testar os endpoints e explorar as funcionalidades.
+
+---
+
+## Exemplos de Endpoints
+
+### **Heróis**
+- **Adicionar Herói:** `POST /heroes/cadastrar`
+- **Listar Heróis:** `GET /heroes`
+- **Atualizar Herói:** `PUT /heroes/{id}`
+- **Deletar Herói:** `DELETE /heroes/{id}`
+
+### **Missões**
+- **Cadastrar Missão:** `POST /missoes/cadastrar`
+- **Listar Missões:** `GET /missoes`
+- **Buscar Missões por Filtro:** `GET /missoes/{id}?difficulty={difficulty}&hero_id={hero_id}`
+- **Deletar Missão:** `DELETE /missoes/deletar/{id}`
+
+### **Crimes**
+- **Cadastrar Crime:** `POST /crimes/cadastrar`
+- **Listar Crimes:** `GET /crimes`
+- **Atualizar Crime:** `PUT /crimes/{id}`
+- **Deletar Crime:** `DELETE /crimes/{id}`
+
+### **Batalhas**
+- **Simular Batalha:** `POST /battles/criar`
+- **Listar Batalhas:** `GET /battles`
+- **Detalhes da Batalha:** `GET /battles/{id}`
+
+---
+
+Desenvolvido com inspiração na série *The Boys*. 🌟
